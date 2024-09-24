@@ -1,23 +1,8 @@
-from sqlalchemy import (
-    TIMESTAMP,
-    Column,
-    Integer,
-    MetaData,
-    String,
-    Table,
-)
+from database import Base
+from sqlalchemy.orm import Mapped, mapped_column
 
-metadata = MetaData()
 
-table_workers = Table(
-    "workers",
-    metadata,
-    Column("id", Integer, primary_key=True),
-    Column("username", String),
-#     Column("figi", String),
-#     Column("instrument_type", String, nullable=True),
-#     Column(
-#         "date", TIMESTAMP(timezone=True), default=datetime.now(timezone.utc)
-#     ),
-#     Column("type", String),
-)
+class WorkersORM(Base):
+    __tablename__ = "workers"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    username: Mapped[str]

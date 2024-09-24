@@ -7,27 +7,22 @@ from sqlalchemy.ext.asyncio import (
     async_sessionmaker,
     create_async_engine,
 )
-from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
 from config import settings
 
 sync_engine = create_engine(settings.DATABASE_URL_psycopg, echo=True)
 
 
-async_engine = create_async_engine(settings.DATABASE_URL_psycopg)
+async_engine = create_async_engine(settings.DATABASE_URL_asyncpg)
 
 
-# metadata = MetaData()
-
-# DATABASE_URL = (
-#     f"postgresql+asyncpg://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
-# )
-
-# class Base(DeclarativeBase):
-#     pass
+class Base(DeclarativeBase):
+    pass
 
 
-# async_session_maker = async_sessionmaker(engine, expire_on_commit=False)
+sync_session_maker = sessionmaker(sync_engine, expire_on_commit=False)
+async_session_maker = async_sessionmaker(async_engine, expire_on_commit=False)
 
 
 # async def get_async_session() -> AsyncGenerator[AsyncSession, None]:

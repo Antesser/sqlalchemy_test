@@ -14,20 +14,3 @@ def get_sync_engine():
     with sync_engine.connect() as conn:
         res = conn.execute(text("SELECT VERSION()"))
         print(f"{res.all()=}")
-
-
-def create_tables():
-    sync_engine.echo=False
-    metadata.drop_all(sync_engine)
-    metadata.create_all(sync_engine)
-    sync_engine.echo=True
-
-
-def insert_data():
-    with sync_engine.connect() as conn:
-        # statement = """insert into table_workers (username) values
-        # ('AO First'),
-        # ('OOO Second');"""
-        statement = insert(table_workers).values([{"username":"Lex"}, {"username":"Luthor"}])
-        conn.execute(statement)
-        conn.commit()
